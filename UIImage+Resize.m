@@ -21,6 +21,46 @@
     return croppedImage;
 }
 
+// Returns a new UI Image cropped within the given rectangle.
+// The imageOrientation is accounted for by applying a transform
+// to the rect prior to renderings.
+-(UIImage *)croppedImageRespectingImageOrientation:(CGRect)rect {
+    
+    CGAffineTransform rectTransform;
+    switch (self.imageOrientation)
+    {
+        case UIImageOrientationLeft:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(M_PI_2), 0, -self.size.height);
+            break;
+        case UIImageOrientationRight:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI_2), -self.size.width, 0);
+            break;
+        case UIImageOrientationDown:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(M_PI), -self.size.width, -self.size.height);
+            break;
+        default:
+            rectTransform = CGAffineTransformIdentity;
+    };
+    rectTransform = CGAffineTransformScale(rectTransform, self.scale, self.scale);
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect(self.CGImage, CGRectApplyAffineTransform(rect, rectTransform));
+    UIImage *result = [UIImage imageWithCGImage:imageRef scale:self.scale orientation:self.imageOrientation];
+    CGImageRelease(imageRef);
+    return result;
+}
+
+// Similar to the standard crop method but in this case the properties of the
+// supplied CGRect are intended to be percentages rather than the absolute
+// values for the rect. A new CGRect is calculated by applying the supplied
+// rect's percentages to the image's own dimensions prior to executing the crop.
+-(UIImage *)croppedImageViaPercentages:(CGRect)rect {
+    CGRect cropRect = CGRectMake(self.size.width*rect.origin.x,
+                                 self.size.height*rect.origin.y,
+                                 self.size.width*rect.size.width,
+                                 self.size.height*rect.size.height);
+    return [self croppedImageRespectingImageOrientation:cropRect];
+}
+
 // Returns a copy of this image that is squared to the thumbnail size.
 // If transparentBorder is non-zero, a transparent border of the given size will be added around the edges of the thumbnail. (Adding a transparent border of at least one pixel in size has the side-effect of antialiasing the edges of the image when rotating it using Core Animation.)
 - (UIImage *)thumbnailImage:(NSInteger)thumbnailSize
@@ -47,8 +87,28 @@
     return [transparentBorderImage roundedCornerImage:cornerRadius borderSize:borderSize];
 }
 
+// Returns a scaled copy of this image constrained to a maximum edge.
+// If the longest edge of the image is greater than the maximum allowed
+// edge, a new UIImage will be scaled down while retaining the aspect
+// ratio of the original image maintained.
+-(UIImage*)resizedImageWithMaxEdge:(float)maxEdge {
+    float aspectRatio = self.size.width/self.size.height;
+    CGSize size;
+    
+    if (aspectRatio >= 1 && self.size.width > maxEdge) {
+        size = CGSizeMake(maxEdge, self.size.height * (1/aspectRatio));
+    } else if (aspectRatio < 1 && self.size.height > maxEdge) {
+        size = CGSizeMake(self.size.width * aspectRatio, maxEdge);
+    } else {
+        return [self copy];
+    }
+    
+    return [self resizedImage:size interpolationQuality:kCGInterpolationHigh];
+}
+
 // Returns a rescaled copy of the image, taking into account its orientation
-// The image will be scaled disproportionately if necessary to fit the bounds specified by the parameter
+// The image will be scaled disproportionately if necessary to fit the bounds
+// specified by the parameter
 - (UIImage *)resizedImage:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality {
     BOOL drawTransposed;
     switch ( self.imageOrientation )
@@ -68,7 +128,8 @@
     return [self resizedImage:newSize transform:transform drawTransposed:drawTransposed interpolationQuality:quality];
 }
 
-// Resizes the image according to the given content mode, taking into account the image's orientation
+// Resizes the image according to the given content mode, taking into account the
+// image's orientation
 - (UIImage *)resizedImageWithContentMode:(UIViewContentMode)contentMode
                                   bounds:(CGSize)bounds
                     interpolationQuality:(CGInterpolationQuality)quality {
