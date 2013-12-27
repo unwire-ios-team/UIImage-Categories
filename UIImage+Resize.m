@@ -109,9 +109,9 @@
     CGSize size;
     
     if (aspectRatio >= 1 && self.size.width > maxEdge) {
-        size = CGSizeMake(maxEdge, self.size.height * (1/aspectRatio));
+        size = CGSizeMake(maxEdge, maxEdge * (1/aspectRatio));
     } else if (aspectRatio < 1 && self.size.height > maxEdge) {
-        size = CGSizeMake(self.size.width * aspectRatio, maxEdge);
+        size = CGSizeMake(maxEdge * aspectRatio, maxEdge);
     } else {
         return [self copy];
     }
