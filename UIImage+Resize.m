@@ -21,6 +21,19 @@
     return croppedImage;
 }
 
+// Returns a copy of the current image cropped into a circle using
+// a supplied diameter and top left anchorpoint for the crop.
+- (UIImage *)circlularCroppedImageWithDiameter:(NSInteger)diameter
+                                atTopLeftPoint:(CGPoint)cropPoint
+                             transparentBorder:(NSUInteger)borderSize {
+    UIImage *croppedImage = [self croppedImage:CGRectMake(cropPoint.x,
+                                                          cropPoint.y,
+                                                          diameter,
+                                                          diameter)];
+    UIImage *transparentBorderImage = borderSize ? [croppedImage transparentBorderImage:borderSize] : croppedImage;
+    return [transparentBorderImage roundedCornerImage:diameter/2 borderSize:borderSize];
+}
+
 // Returns a new UI Image cropped within the given rectangle.
 // The imageOrientation is accounted for by applying a transform
 // to the rect prior to renderings.
