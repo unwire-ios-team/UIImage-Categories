@@ -9,5 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImage (Grayscale)
+
+/**
+ *  Return a grayscale version of the receiving image
+ *
+ *  @return the grayscaled image. 
+ */
 - (UIImage *)grayscaledImage;
 @end
