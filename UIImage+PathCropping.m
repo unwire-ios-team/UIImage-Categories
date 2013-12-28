@@ -50,11 +50,14 @@
         CGContextAddPath(context, path.CGPath);
         CGContextClip(context);
     }
-    
+    CGContextScaleCTM(context, 1.0, -1.0);
+
+    CGContextTranslateCTM(context, 0.0, -newImage.size.height);
+
     CGContextDrawImage(context, CGRectMake(0, 0, newImage.size.width, newImage.size.height), newImage.CGImage);
-    
-    newImage = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
     CGContextRestoreGState(context);
+
+    newImage = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
     UIGraphicsEndImageContext();
     
     return newImage;
