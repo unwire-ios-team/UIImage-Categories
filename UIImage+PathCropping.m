@@ -34,6 +34,10 @@
                                                         colorSpace,
                                                         (CGBitmapInfo)CGImageGetAlphaInfo(newImage.CGImage)
                                                         );
+    CGContextSaveGState(context);
+
+    CGContextTranslateCTM(context, 0.0, newImage.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
     if(invertPath){
         UIBezierPath *rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0,
                                                                              0,
@@ -50,9 +54,46 @@
     CGContextDrawImage(context, CGRectMake(0, 0, newImage.size.width, newImage.size.height), newImage.CGImage);
     
     newImage = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
+    CGContextRestoreGState(context);
     UIGraphicsEndImageContext();
-
+    
     return newImage;
+    
+    
+//    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0);
+//    
+//    
+//    UIImage *newImage = [self copy];
+//    
+//    CGColorSpaceRef colorSpace  = CGImageGetColorSpace(self.CGImage);
+//    CGContextRef context        = CGBitmapContextCreate(NULL,
+//                                                        self.size.width,
+//                                                        self.size.height,
+//                                                        CGImageGetBitsPerComponent(self.CGImage),
+//                                                        0,
+//                                                        colorSpace,
+//                                                        (CGBitmapInfo)CGImageGetAlphaInfo(self.CGImage)
+//                                                        );
+//    
+//    CAShapeLayer *layer = [CAShapeLayer layer];
+//    layer.frame = CGRectMake(0, 0, newImage.size.width, newImage.size.height);
+//
+//    layer.path = path.CGPath;
+//    
+//    CALayer *imageLayer = [CALayer layer];
+//    imageLayer.frame = CGRectMake(0, 0, newImage.size.width, newImage.size.height);
+//    imageLayer.mask = layer;
+//    imageLayer.contents = newImage;
+//    
+//    
+//    [imageLayer renderInContext:context];
+//    
+//    CGContextDrawImage(context, CGRectMake(0, 0, newImage.size.width, newImage.size.height), newImage.CGImage);
+//    newImage = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
+//    
+//    UIGraphicsEndImageContext();
+//    return newImage;
+    
     
 }
 @end
