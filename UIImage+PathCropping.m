@@ -23,7 +23,7 @@
     
     UIImage *newImage = [self copy];
     
-    UIGraphicsBeginImageContextWithOptions(newImage.size, 1.0f, 0.0f);
+    UIGraphicsBeginImageContextWithOptions(newImage.size, NO, 0.0);
     
     CGColorSpaceRef colorSpace  = CGImageGetColorSpace(newImage.CGImage);
     CGContextRef context        = CGBitmapContextCreate(NULL,
