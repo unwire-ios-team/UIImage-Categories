@@ -19,21 +19,28 @@
 -(UIImage *)imageCroppedWithPath:(UIBezierPath *)path
                       invertPath:(BOOL)invertPath
 {
+    float scaleFactor = [self scale];
+    CGRect imageRect = CGRectMake(0, 0, self.size.width * scaleFactor, self.size.height *scaleFactor);
     
-    
-    UIImage *newImage = [self copy];
-    
-    UIGraphicsBeginImageContextWithOptions(newImage.size, NO, 0.0);
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
+    CGColorSpaceRef colorSpace  = CGImageGetColorSpace(self.CGImage);
+    CGContextRef context        = CGBitmapContextCreate(NULL,
+                                                        imageRect.size.width,
+                                                        imageRect.size.height ,
+                                                        CGImageGetBitsPerComponent(self.CGImage),
+                                                        0,
+                                                        colorSpace,
+                                                        (CGBitmapInfo)CGImageGetAlphaInfo(self.CGImage)
+                                                        );
     CGContextSaveGState(context);
-
+    
+    CGContextTranslateCTM(context, 0.0, self.size.height *scaleFactor);
+    CGContextScaleCTM(context, 1.0 , -1.0);
+    
+    CGAffineTransform transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
+    [path applyTransform:transform];
+    
     if(invertPath){
-        UIBezierPath *rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0,
-                                                                             0,
-                                                                             newImage.size.width,
-                                                                             newImage.size.height)];
+        UIBezierPath *rectPath = [UIBezierPath bezierPathWithRect:imageRect];
         CGContextAddPath(context, rectPath.CGPath);
         CGContextAddPath(context, path.CGPath);
         CGContextEOClip(context);
@@ -41,17 +48,12 @@
         CGContextAddPath(context, path.CGPath);
         CGContextClip(context);
     }
-    CGContextScaleCTM(context, 1.0, -1.0);
-
-    CGContextTranslateCTM(context, 0.0, -newImage.size.height);
-
-    CGContextDrawImage(context, CGRectMake(0, 0, newImage.size.width, newImage.size.height), newImage.CGImage);
-
-    newImage = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context) scale:newImage.scale orientation:0];
-    CGContextRestoreGState(context);
-
-    UIGraphicsEndImageContext();
     
-    return newImage;
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0.0, -self.size.height * scaleFactor);
+
+    CGContextDrawImage(context, imageRect, [self CGImage]);
+    CGImageRef imageRef = CGBitmapContextCreateImage(context);
+    return [UIImage imageWithCGImage:imageRef scale:scaleFactor orientation:0];
 }
 @end

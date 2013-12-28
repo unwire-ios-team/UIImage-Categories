@@ -12,30 +12,24 @@
 
 - (UIImage *)grayscaledImage
 {
-    UIImage *image = [self copy];
-    float scaleFactor = [[UIScreen mainScreen] scale];
+    float scaleFactor = [self scale];
+    CGRect imageRect = CGRectMake(0, 0, self.size.width * scaleFactor, self.size.height *scaleFactor);
     
-    CGRect imageRect = CGRectMake(0, 0, image.size.width * scaleFactor, image.size.height *scaleFactor);
-    
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, scaleFactor);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
     CGContextRef context = CGBitmapContextCreate(NULL,
-                                                 image.size.width * scaleFactor,
-                                                 image.size.height * scaleFactor,
+                                                 self.size.width * scaleFactor,
+                                                 self.size.height * scaleFactor,
                                                  8,
-                                                 0,//image.size.width * scaleFactor * 4,
+                                                 0,
                                                  colorSpace,
                                                  (CGBitmapInfo)kCGImageAlphaNone);
     CGContextSaveGState(context);
     
-    CGContextDrawImage(context, imageRect, [image CGImage]);
-
+    CGContextDrawImage(context, imageRect, [self CGImage]);
     CGImageRef imageRef = CGBitmapContextCreateImage(context);
-    image = [UIImage imageWithCGImage:imageRef scale:scaleFactor orientation:0];
     
     CGContextRestoreGState(context);
-    UIGraphicsEndImageContext();
 
-    return image;
+    return [UIImage imageWithCGImage:imageRef scale:scaleFactor orientation:0];
 }
 @end
