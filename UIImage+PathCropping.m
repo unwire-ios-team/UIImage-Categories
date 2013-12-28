@@ -25,19 +25,10 @@
     
     UIGraphicsBeginImageContextWithOptions(newImage.size, NO, 0.0);
     
-    CGColorSpaceRef colorSpace  = CGImageGetColorSpace(newImage.CGImage);
-    CGContextRef context        = CGBitmapContextCreate(NULL,
-                                                        newImage.size.width,
-                                                        newImage.size.height,
-                                                        CGImageGetBitsPerComponent(newImage.CGImage),
-                                                        0,
-                                                        colorSpace,
-                                                        (CGBitmapInfo)CGImageGetAlphaInfo(newImage.CGImage)
-                                                        );
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
     CGContextSaveGState(context);
 
-    CGContextTranslateCTM(context, 0.0, newImage.size.height);
-    CGContextScaleCTM(context, 1.0, -1.0);
     if(invertPath){
         UIBezierPath *rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0,
                                                                              0,
@@ -55,9 +46,10 @@
     CGContextTranslateCTM(context, 0.0, -newImage.size.height);
 
     CGContextDrawImage(context, CGRectMake(0, 0, newImage.size.width, newImage.size.height), newImage.CGImage);
+
+    newImage = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context) scale:newImage.scale orientation:0];
     CGContextRestoreGState(context);
 
-    newImage = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
     UIGraphicsEndImageContext();
     
     return newImage;
