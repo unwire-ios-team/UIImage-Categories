@@ -12,10 +12,10 @@ Pod::Spec.new do |s|
                     For more information, see:
                     http://vocaro.com/trevor/blog/2009/10/12/resize-a-uiimage-the-right-way/ .
                     DESC
-  s.homepage     = "https://github.com/mbcharbonneau/UIImage-Categories"
+  s.homepage     = "https://github.com/jimjeffers/UIImage-Categories"
   s.license      = { type: 'MIT', file: 'LICENSE' }
   s.author       = { "Marc Charbonneau" => "marc@mbcharbonneau.com" }
-  s.source       = { :git => "https://github.com/mbcharbonneau/UIImage-Categories.git", :tag => "v#{s.version}" }
+  s.source       = { :git => "https://github.com/jimjeffers/UIImage-Categories.git", :tag => "v#{s.version}" }
   s.platform     = :ios, '5.0'
   s.ios.deployment_target = '5.0'
   s.source_files = 'UIImage*.{h,m}'
