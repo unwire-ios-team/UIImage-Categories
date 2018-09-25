@@ -24,7 +24,7 @@
  *
  *  @param path the path that is used for cropping. Must be non-nil.
  *
- * @param invertedPath if YES the path will be inverted
+ * @param invertPath if YES the path will be inverted
  *
  *  @return the cropped image
  */

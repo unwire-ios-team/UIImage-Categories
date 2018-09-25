@@ -15,7 +15,6 @@
           transparentBorder:(NSUInteger)borderSize
                cornerRadius:(NSUInteger)cornerRadius
        interpolationQuality:(CGInterpolationQuality)quality;
-- (BOOL)extendsBeyondMaxEdge:(float)maxEdge;
 - (UIImage*)resizedImageWithMaxEdge:(float)maxEdge;
 - (UIImage *)resizedImage:(CGSize)newSize
      interpolationQuality:(CGInterpolationQuality)quality;
