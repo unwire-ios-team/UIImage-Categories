@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BA66661B215A476A00835CFC /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA66661A215A476A00835CFC /* Dummy.swift */; };
 		BA81A2FE215A071D00E4E67C /* UIImage_Categories.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA81A2F4215A071C00E4E67C /* UIImage_Categories.framework */; };
 		BA81A303215A071D00E4E67C /* UIImage_CategoriesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BA81A302215A071D00E4E67C /* UIImage_CategoriesTests.m */; };
 		BA81A305215A071D00E4E67C /* UIImage_Categories.h in Headers */ = {isa = PBXBuildFile; fileRef = BA81A2F7215A071C00E4E67C /* UIImage_Categories.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -36,7 +35,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BA66661A215A476A00835CFC /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		BA81A2F4215A071C00E4E67C /* UIImage_Categories.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UIImage_Categories.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA81A2F7215A071C00E4E67C /* UIImage_Categories.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIImage_Categories.h; sourceTree = "<group>"; };
 		BA81A2F8215A071C00E4E67C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,7 +110,6 @@
 				BA81A2F7215A071C00E4E67C /* UIImage_Categories.h */,
 				BA81A2F8215A071C00E4E67C /* Info.plist */,
 				BA81A325215A0D6E00E4E67C /* PrefixHeader.pch */,
-				BA66661A215A476A00835CFC /* Dummy.swift */,
 			);
 			path = "UIImage-Categories";
 			sourceTree = "<group>";
@@ -252,7 +249,6 @@
 				BA81A321215A0C6100E4E67C /* UIImage+RoundedCorner.m in Sources */,
 				BA81A320215A0C6100E4E67C /* UIImage+Resize.m in Sources */,
 				BA81A31A215A0C6100E4E67C /* UIImage+Grayscale.m in Sources */,
-				BA66661B215A476A00835CFC /* Dummy.swift in Sources */,
 				BA81A31E215A0C6100E4E67C /* UIImage+PathCropping.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -456,7 +452,6 @@
 		BA81A30C215A071D00E4E67C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UFJW8GE6PZ;
 				INFOPLIST_FILE = "UIImage-CategoriesTests/Info.plist";
@@ -474,7 +469,6 @@
 		BA81A30D215A071D00E4E67C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UFJW8GE6PZ;
 				INFOPLIST_FILE = "UIImage-CategoriesTests/Info.plist";
