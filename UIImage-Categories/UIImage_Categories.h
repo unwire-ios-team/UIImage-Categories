@@ -14,6 +14,8 @@ FOUNDATION_EXPORT double UIImage_CategoriesVersionNumber;
 //! Project version string for UIImage_Categories.
 FOUNDATION_EXPORT const unsigned char UIImage_CategoriesVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <UIImage_Categories/PublicHeader.h>
-
-
+#import <UIImage_Categories/UIImage+Alpha.h>
+#import <UIImage_Categories/UIImage+Grayscale.h>
+#import <UIImage_Categories/UIImage+PathCropping.h>
+#import <UIImage_Categories/UIImage+Resize.h>
+#import <UIImage_Categories/UIImage+RoundedCorner.h>
