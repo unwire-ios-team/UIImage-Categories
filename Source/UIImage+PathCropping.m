@@ -54,6 +54,10 @@
 
     CGContextDrawImage(context, imageRect, [self CGImage]);
     CGImageRef imageRef = CGBitmapContextCreateImage(context);
-    return [UIImage imageWithCGImage:imageRef scale:scaleFactor orientation:0];
+
+    UIImage *image = [UIImage imageWithCGImage:imageRef scale:scaleFactor orientation:0];
+    CGImageRelease(imageRef);
+    CGContextRelease(context);
+    return image;
 }
 @end

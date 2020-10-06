@@ -30,6 +30,11 @@
     
     CGContextRestoreGState(context);
 
-    return [UIImage imageWithCGImage:imageRef scale:scaleFactor orientation:0];
+
+    UIImage *image =  [UIImage imageWithCGImage:imageRef scale:scaleFactor orientation:0];
+    CGImageRelease(imageRef);
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    return image;
 }
 @end

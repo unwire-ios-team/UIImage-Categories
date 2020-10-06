@@ -4,22 +4,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "UIImage-Categories",
+    name: "UIImage_Categories",
     platforms: [
         .iOS(.v8)
     ],
     products: [
-        .library(name: "UIImage-Categories", targets: ["UIImage-Categories"]),
+        .library(name: "UIImage_Categories", targets: ["UIImage_Categories"]),
     ],
     dependencies: [],
     targets: [
         .target(
-            name: "UIImage-Categories",
+            name: "UIImage_Categories",
             dependencies: [],
-            path: ".",
+            path: "Source",
             publicHeadersPath: ".",
             cSettings: [
-                .headerSearchPath("**")
+                .headerSearchPath(".")
             ],
             linkerSettings: [
                 .linkedFramework("UIKit", .when(platforms: [.iOS])),
